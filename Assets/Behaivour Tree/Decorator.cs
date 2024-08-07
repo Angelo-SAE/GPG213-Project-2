@@ -2,7 +2,16 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Decorator : BehaivourTreeNode
+public abstract class Decorator : BehaivourTreeNode
 {
-    private BehaivourTreeNode child;
+    protected BehaivourTreeNode child;
+
+    public abstract bool ExecuteBehaviour();
+
+    public abstract bool ExecuteBehaviour(int a);
+
+    public void AddNode(BehaivourTreeNode node)
+    {
+      child = node;
+    }
 }

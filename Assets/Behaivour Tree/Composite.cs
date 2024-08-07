@@ -2,7 +2,14 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Composite : BehaivourTreeNode
+public abstract class Composite : BehaivourTreeNode
 {
-    private List<BehaivourTreeNode> children = new List<BehaivourTreeNode>();
+    protected List<BehaivourTreeNode> children = new List<BehaivourTreeNode>();
+
+    public abstract bool ExecuteBehaviour();
+
+    public void AddNode(BehaivourTreeNode node)
+    {
+      children.Add(node);
+    }
 }
