@@ -5,13 +5,18 @@ using UnityEditor;
 
 public class CreateGrid : MonoBehaviour
 {
-    [SerializeField] private bool usingHeightMap, usingColors;
+    [SerializeField] public bool usingHeightMap;
     [SerializeField] private int maxHeight;
     [SerializeField] private Texture2D heightMap;
     [SerializeField] private int gridSizeX, gridSizeZ;
+    [SerializeField] private int uvX, uvY;
     private Vector3[] gridVertices;
+    private Vector2[] gridUVs;
     private int[] gridIndicies;
     private Color[] gridColors;
+    private int maxX, maxZ;
+
+    [HideInInspector] public bool usingColors;
 
     private MeshRenderer meshRenderer;
     private MeshFilter meshFilter;
@@ -22,9 +27,10 @@ public class CreateGrid : MonoBehaviour
       //find a way to hide height map or grid when using height map is active
       if(usingHeightMap)
       {
+
         if(heightMap is not null)
         {
-          CheckVerticieCount(heightMap.width, heightMap.height);
+          //CheckVerticieCount(heightMap.width, heightMap.height);
         }
       } else {
         CheckVerticieCount(gridSizeX, gridSizeZ);
@@ -47,17 +53,20 @@ public class CreateGrid : MonoBehaviour
 
     private void Start()
     {
-      if(heightMap.width < 250)
+      if(usingHeightMap)
       {
-        gridSizeX = heightMap.width;
-      } else {
-        gridSizeX = 250;
-      }
-      if(heightMap.height < 250)
-      {
-        gridSizeZ = heightMap.height;
-      } else {
-        gridSizeZ = 250;
+        if(heightMap.width < 250)
+        {
+          gridSizeX = heightMap.width;
+        } else {
+          gridSizeX = 250;
+        }
+        if(heightMap.height < 250)
+        {
+          gridSizeZ = heightMap.height;
+        } else {
+          gridSizeZ = 250;
+        }
       }
       meshFilter = gameObject.AddComponent<MeshFilter>();
       meshRenderer = gameObject.AddComponent<MeshRenderer>();
@@ -70,6 +79,7 @@ public class CreateGrid : MonoBehaviour
       {
         GenerateGridVertices();
         GenerateGridIndicies();
+        GenerateGridUVs();
         if(usingColors)
         {
           GenerateGridColors();
@@ -92,8 +102,13 @@ public class CreateGrid : MonoBehaviour
       {
         for(int b = 0; b < gridSizeX + 1; b++)
         {
-          Color color = heightMap.GetPixel(b,a);
-          gridVertices[(a * (gridSizeX + 1)) + b] = new Vector3(b, color.r * maxHeight, a);
+          if(usingHeightMap)
+          {
+            Color color = heightMap.GetPixel(b,a);
+            gridVertices[(a * (gridSizeX + 1)) + b] = new Vector3(b, color.r * maxHeight, a);
+          } else {
+            gridVertices[(a * (gridSizeX + 1)) + b] = new Vector3(b, maxHeight, a);
+          }
         }
       }
     }
@@ -137,12 +152,37 @@ public class CreateGrid : MonoBehaviour
       }
     }
 
+    private void GenerateGridUVs()
+    {
+      gridUVs = new Vector2[gridVertices.Length];
+      for(int a = 0; a < gridUVs.Length; a++)
+      {
+        gridUVs[a] = new Vector2(gridVertices[a].x / (gridSizeX/uvX), gridVertices[a].z / (gridSizeZ/uvY));
+      }
+    }
+
+
     private void GenerateGrid()
     {
       meshFilter.mesh.vertices = gridVertices;
       meshFilter.mesh.triangles = gridIndicies;
+      meshFilter.mesh.uv = gridUVs;
       meshRenderer.material = material;
       meshFilter.mesh.colors = gridColors;
       meshFilter.mesh.RecalculateNormals();
+    }
+}
+
+public class CreateGridGUI: Editor
+{
+    public override void OnInspectorGUI()
+    {
+      CreateGrid script = (CreateGrid)target;
+
+      if(script.usingHeightMap)
+      {
+        script.usingColors = EditorGUILayout.Toggle("usingColors", script.usingColors);
+      }
+
     }
 }
