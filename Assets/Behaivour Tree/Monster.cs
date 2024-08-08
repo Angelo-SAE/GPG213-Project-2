@@ -4,6 +4,8 @@ using UnityEngine;
 
 public class Monster : MonoBehaviour
 {
+    [Header("Scriptable Objects")]
+    [SerializeField] private Vector3Object playerPosition;
     private Sequence sequenceOne;
     private Sequence sequenceTwo;
     private Selector selectorOne;
@@ -20,9 +22,8 @@ public class Monster : MonoBehaviour
 
     private void AddNodesToSequenceOne()
     {
-      sequenceOne.AddNode(new MonsterWalk());
-      sequenceOne.AddNode(new MonsterLookForPlayer());
-      sequenceOne.AddNode(new MonsterMoveToPlayer());
+      sequenceOne.AddNode(new MonsterLookForPlayer(this.gameObject, playerPosition));
+      sequenceOne.AddNode(new MonsterMoveToPlayer(this.gameObject, playerPosition));
       sequenceOne.AddNode(new MonsterKill());
     }
 
