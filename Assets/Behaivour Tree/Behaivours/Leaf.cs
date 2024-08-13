@@ -5,6 +5,10 @@ using UnityEngine;
 public abstract class Leaf : BehaivourTreeNode
 {
     //No Children very sad
+    protected BehaivourTreeNode parentNode;
 
-    public abstract bool ExecuteBehaviour();
+    public abstract void ExecuteBehaviour(BehaivourTreeNode node);
+
+    public void ReturnResult(bool result) {}
+
 }

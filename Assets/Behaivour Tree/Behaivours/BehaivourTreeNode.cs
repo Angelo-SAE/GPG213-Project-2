@@ -4,5 +4,6 @@ using UnityEngine;
 
 public interface BehaivourTreeNode
 {
-    public abstract bool ExecuteBehaviour();
+    void ExecuteBehaviour(BehaivourTreeNode node);
+    void ReturnResult(bool result);
 }

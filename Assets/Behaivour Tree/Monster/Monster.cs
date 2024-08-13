@@ -6,15 +6,23 @@ public class Monster : MonoBehaviour
 {
     [Header("Scriptable Objects")]
     [SerializeField] private Vector3Object playerPosition;
+
+    [Header("Others")]
+    [SerializeField] private MonsterMovement monsterMovement;
+    [SerializeField] private MonsterAttack monsterAttack;
+    private StartNode startNode;
     private Sequence sequenceOne;
     private Sequence sequenceTwo;
     private Selector selectorOne;
+    [SerializeField] public bool cycleDone;
 
     private void Start()
     {
+      startNode = new StartNode();
       selectorOne = new Selector();
       sequenceOne = new Sequence();
       sequenceTwo = new Sequence();
+      startNode.AddNode(selectorOne);
       AddNodesToSequenceOne();
       AddNodesToSequenceTwo();
       AddNodesToSelectorOne();
@@ -23,14 +31,14 @@ public class Monster : MonoBehaviour
     private void AddNodesToSequenceOne()
     {
       sequenceOne.AddNode(new MonsterLookForPlayer(this.gameObject, playerPosition));
-      sequenceOne.AddNode(new MonsterMoveToPlayer(this.gameObject, playerPosition));
-      sequenceOne.AddNode(new MonsterKill());
+      sequenceOne.AddNode(new MonsterMoveToPlayer(monsterMovement, playerPosition));
+      sequenceOne.AddNode(new MonsterCheckForAttack(this, playerPosition));
     }
 
     private void AddNodesToSequenceTwo()
     {
-      sequenceTwo.AddNode(new MonsterRotate());
-      sequenceTwo.AddNode(new MonsterWalk());
+      sequenceTwo.AddNode(new MonsterRotate(monsterMovement));
+      sequenceTwo.AddNode(new MonsterWalk(monsterMovement));
     }
 
     private void AddNodesToSelectorOne()
@@ -41,9 +49,15 @@ public class Monster : MonoBehaviour
 
     private void Update()
     {
-      if(Input.GetKeyDown(KeyCode.E))
+      if(cycleDone)
       {
-        selectorOne.ExecuteBehaviour();
+        cycleDone = false;
+        startNode.ExecuteBehaviour(this);
       }
+    }
+
+    public void Attack()
+    {
+      monsterAttack.Attack();
     }
 }

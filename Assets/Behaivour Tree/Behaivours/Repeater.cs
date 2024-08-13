@@ -6,20 +6,35 @@ public class Repeater : Decorator
 {
     //Inherits Child very little
 
-    public override bool ExecuteBehaviour()
+    private int repetitions, currentRepetition;
+
+    public override void ExecuteBehaviour(BehaivourTreeNode node) {}
+
+    public override void ExecuteBehaviour(BehaivourTreeNode node, int repeat)
     {
-      return true;
+      parentNode = node;
+      repetitions = repeat;
+      currentRepetition = 0;
+      RunNode();
     }
 
-    public override bool ExecuteBehaviour(int repetitions)
+    public override void ReturnResult(bool result)
     {
-      for(int a = 0; a < repetitions; a++)
+      if(result)
       {
-        if(!child.ExecuteBehaviour())
+        if(currentRepetition <= repetitions)
         {
-          return false;
+          RunNode();
+        } else {
+          parentNode.ReturnResult(true);
         }
+      } else {
+        parentNode.ReturnResult(false);
       }
-      return true;
+    }
+
+    private void RunNode()
+    {
+      child.ExecuteBehaviour(this);
     }
 }

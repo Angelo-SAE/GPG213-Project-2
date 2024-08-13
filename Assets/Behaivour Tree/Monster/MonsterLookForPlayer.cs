@@ -13,18 +13,19 @@ public class MonsterLookForPlayer : Leaf
       playerPosition = pPosition;
     }
 
-    public override bool ExecuteBehaviour()
+    public override void ExecuteBehaviour(BehaivourTreeNode node)
     {
+      parentNode = node;
       RaycastHit hit;
       Physics.Raycast(monsterObject.transform.position, playerPosition.value - monsterObject.transform.position, out hit, Mathf.Infinity);
       if(hit.collider is not null)
       {
         if(hit.collider.tag == "Player")
         {
-          Debug.Log("Looking");
-          return true;
+          parentNode.ReturnResult(true);
+          return;
         }
       }
-      return false;
+      parentNode.ReturnResult(false);
     }
 }

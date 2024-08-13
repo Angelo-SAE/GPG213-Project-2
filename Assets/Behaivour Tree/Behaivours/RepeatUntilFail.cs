@@ -6,18 +6,26 @@ public class RepeatUntilFail : Decorator
 {
     //Inherits Child very little
 
-    public override bool ExecuteBehaviour()
+    public override void ExecuteBehaviour(BehaivourTreeNode node)
     {
-      bool returnsTrue = true;
-      while(returnsTrue)
-      {
-        returnsTrue = child.ExecuteBehaviour();
-      }
-      return true;
+      parentNode = node;
+      ExecuteNode();
     }
 
-    public override bool ExecuteBehaviour(int a)
+    public override void ExecuteBehaviour(BehaivourTreeNode node, int a) {}
+
+    public override void ReturnResult(bool result)
     {
-      return true;
+      if(result)
+      {
+        ExecuteNode();
+      } else {
+        parentNode.ReturnResult(true);
+      }
+    }
+
+    private void ExecuteNode()
+    {
+      child.ExecuteBehaviour(this);
     }
 }

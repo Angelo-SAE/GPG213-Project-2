@@ -6,17 +6,26 @@ public class Inverter : Decorator
 {
     //Inherits Child very little
 
-    public override bool ExecuteBehaviour()
+    public override void ExecuteBehaviour(BehaivourTreeNode node)
     {
-      if(child.ExecuteBehaviour())
-      {
-        return false;
-      }
-      return true;
+      parentNode = node;
+      RunNode();
     }
 
-    public override bool ExecuteBehaviour(int a)
+    public override void ExecuteBehaviour(BehaivourTreeNode node, int a) {}
+
+    public override void ReturnResult(bool result)
     {
-      return true;
+      if(result)
+      {
+        parentNode.ReturnResult(false);
+      } else {
+        parentNode.ReturnResult(true);
+      }
+    }
+
+    private void RunNode()
+    {
+      child.ExecuteBehaviour(this);
     }
 }

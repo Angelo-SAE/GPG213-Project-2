@@ -5,8 +5,12 @@ using UnityEngine;
 public abstract class Composite : BehaivourTreeNode
 {
     protected List<BehaivourTreeNode> children = new List<BehaivourTreeNode>();
+    protected BehaivourTreeNode parentNode;
+    protected int currentChild;
 
-    public abstract bool ExecuteBehaviour();
+    public abstract void ExecuteBehaviour(BehaivourTreeNode node);
+
+    public abstract void ReturnResult(bool result);
 
     public void AddNodes(BehaivourTreeNode[] nodes)
     {
@@ -20,4 +24,5 @@ public abstract class Composite : BehaivourTreeNode
     {
       children.Add(node);
     }
+
 }

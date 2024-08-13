@@ -5,10 +5,13 @@ using UnityEngine;
 public abstract class Decorator : BehaivourTreeNode
 {
     protected BehaivourTreeNode child;
+    protected BehaivourTreeNode parentNode;
 
-    public abstract bool ExecuteBehaviour();
+    public abstract void ExecuteBehaviour(BehaivourTreeNode node);
 
-    public abstract bool ExecuteBehaviour(int a);
+    public abstract void ExecuteBehaviour(BehaivourTreeNode node, int a);
+
+    public abstract void ReturnResult(bool result);
 
     public void AddNode(BehaivourTreeNode node)
     {
