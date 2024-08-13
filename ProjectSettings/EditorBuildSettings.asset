@@ -4,5 +4,8 @@
 EditorBuildSettings:
   m_ObjectHideFlags: 0
   serializedVersion: 2
-  m_Scenes: []
+  m_Scenes:
+  - enabled: 1
+    path: Assets/Behaivour Tree/BehaivourTree.unity
+    guid: 1fcfe101186fd2d41bc42d8926544a85
   m_configObjects: {}

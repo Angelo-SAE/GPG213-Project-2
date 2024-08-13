@@ -7,6 +7,7 @@ public class MonsterAttack : MonoBehaviour
     [SerializeField] private float attackRange, attackCooldown;
     [SerializeField] private Transform attackLocation;
     [SerializeField] private LayerMask playerLayer;
+    [SerializeField] private AudioSource munch;
     private float timeLeft;
     private bool onCooldown;
 
@@ -32,10 +33,11 @@ public class MonsterAttack : MonoBehaviour
       if(!onCooldown)
       {
         Collider[] playerCollider = Physics.OverlapSphere(attackLocation.position, attackRange, playerLayer);
-        if(playerCollider is not null)
+        if(playerCollider.Length > 0)
         {
           playerCollider[0].GetComponent<Player>().GetHit(transform.position);
         }
+        munch.Play();
         onCooldown = true;
         timeLeft = attackCooldown;
       }

@@ -10,6 +10,7 @@ public class MonsterMovement : MonoBehaviour
     [Header("Others")]
     [SerializeField] private Rigidbody rb;
     [SerializeField] private float rotationSpeed;
+    [SerializeField] private AudioSource meow;
 
     private float currentSpeed, currentTime, maxTime, rotatingCount;
     private bool moveToPlayer, moveForward, rotateMonster, backwards;
@@ -17,6 +18,7 @@ public class MonsterMovement : MonoBehaviour
 
     public void MoveTowardsPlayer(float monsterSpeed, float waitTime, BehaivourTreeNode node)
     {
+      meow.Play();
       maxTime = waitTime;
       currentSpeed = monsterSpeed;
       currentTime = 0;

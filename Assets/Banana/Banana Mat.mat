@@ -69,12 +69,12 @@ Material:
     - _Glossiness: 0.5
     - _GlossyReflections: 1
     - _Metallic: 0
-    - _MinColor: 0.098
+    - _MinColor: 0.235
     - _Mode: 0
     - _OcclusionStrength: 1
-    - _OutlineSize: 0.01
+    - _OutlineSize: 0.247
     - _Parallax: 0.02
-    - _Shades: 21
+    - _Shades: 4.9
     - _SmoothnessTextureChannel: 0
     - _SpecularHighlights: 1
     - _SrcBlend: 1

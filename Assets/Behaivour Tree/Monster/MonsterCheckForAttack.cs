@@ -17,7 +17,7 @@ public class MonsterCheckForAttack : Leaf
     {
       parentNode = node;
       RaycastHit hit;
-      Physics.Raycast(monster.gameObject.transform.position, playerPosition.value - monster.gameObject.transform.position, out hit, 1.5f);
+      Physics.Raycast(monster.gameObject.transform.position, playerPosition.value - monster.gameObject.transform.position, out hit, 3.5f);
       if(hit.collider is not null)
       {
         if(hit.collider.tag == "Player")

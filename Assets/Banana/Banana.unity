@@ -189,7 +189,7 @@ PrefabInstance:
     - target: {fileID: -7511558181221131132, guid: 92d30a38f401aeb448f5791ff27b5357, type: 3}
       propertyPath: m_Materials.Array.data[0]
       value: 
-      objectReference: {fileID: 2100000, guid: 19572a778f9ed054c8c096fe5ae6d880, type: 2}
+      objectReference: {fileID: 2100000, guid: a10e92b978f0c2848b72432cc92c8de8, type: 2}
     - target: {fileID: 919132149155446097, guid: 92d30a38f401aeb448f5791ff27b5357, type: 3}
       propertyPath: m_Name
       value: Banana
