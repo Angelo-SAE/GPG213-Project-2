@@ -1,11 +1,12 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class PlayerRotation : MonoBehaviour
 {
     [SerializeField] private GameObject playerCamera, pCamera;
-    [SerializeField] private float sensitivityX, sensitivityY;
+    [SerializeField] private FloatObject sensSlider;
     private float horizontalInput, verticalInput;
     private float angle;
 
@@ -22,8 +23,8 @@ public class PlayerRotation : MonoBehaviour
 
     private void GetMouseInput()
     {
-      horizontalInput = Input.GetAxis("Mouse X") * sensitivityX * 100 * Time.deltaTime;
-      verticalInput = Input.GetAxis("Mouse Y") * sensitivityY * 100 * Time.deltaTime;
+      horizontalInput = Input.GetAxis("Mouse X") * sensSlider.value * 100 * Time.deltaTime;
+      verticalInput = Input.GetAxis("Mouse Y") * sensSlider.value * 100 * Time.deltaTime;
     }
 
     private void RotatePlayer()
@@ -32,4 +33,5 @@ public class PlayerRotation : MonoBehaviour
       angle = Mathf.Clamp(angle, -80, 75);
       playerCamera.transform.localRotation = Quaternion.Euler(angle, pCamera.transform.eulerAngles.y + horizontalInput, 0);
     }
+
 }
